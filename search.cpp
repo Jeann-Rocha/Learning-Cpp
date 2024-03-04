@@ -4,6 +4,7 @@
 using std::cout;
 using std::endl;
 using std::cerr;
+using std::atoi;
 using std::cin;
 
 int binsearch(int* arr, int size, int x); // O(log n)
@@ -25,7 +26,7 @@ int main(int argc, char* argv[]) {
 
     int number;
 
-    cout << "What's the number that you are find: "; cin >> number;
+    cout << "What's the number that you want to find: "; cin >> number;
 
     int result_lin = linsearch(values, argc - 1, number);
 
