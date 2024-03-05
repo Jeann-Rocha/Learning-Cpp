@@ -2,7 +2,6 @@
 #include <cstdlib>
 
 using std::cout;
-using std::cin;
 using std::cerr;
 using std::endl;
 using std::atoi;
@@ -18,7 +17,7 @@ void print_arr(int* arr, int size);
 int main(int argc, char* argv[]) {
 
     if (argc <= 1) {
-        cout << "USAGE: " << argv[0] << "<num1> <num2> ... <numN>" << endl;
+        cerr << "USAGE: " << argv[0] << " <num1> <num2> ... <numN>" << endl;
         return 1;
     }
 
