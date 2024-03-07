@@ -12,6 +12,12 @@ void bubble(int* arr, int size); // O(n²)
 
 void merge(int* arr, int size); // O(nlogn)
 
+void insertion(int* arr, int size); //
+
+void shell(int* arr, int size); //
+
+void quick(int* arr, int size); //
+
 void print_arr(int* arr, int size);
 
 int main(int argc, char* argv[]) {
@@ -29,20 +35,49 @@ int main(int argc, char* argv[]) {
         values_3[i] = atoi(argv[i + 1]);
     }
 
+    // ---------------------------------------------------------------------
+
     selection(values_1, argc -  1);
 
     cout << ">> Selection_Sort: ";
     print_arr(values_1, argc - 1);
+
+    // ---------------------------------------------------------------------
 
     bubble(values_2, argc - 1);
 
     cout << ">> Bubble_Sort: ";
     print_arr(values_2, argc - 1);
 
+    // ---------------------------------------------------------------------
+
     //int* arr_merge = merge(values, argc - 1);
 
     //cout << ">> Merge_Sort: ";
     //print_arr(arr_merge, argc - 1);
+
+    // ---------------------------------------------------------------------
+
+    //int* arr_insertion = insertion(values, argc - 1);
+
+    //cout << ">> Insertion_Sort: ";
+    //print_arr(arr_insertion, argc - 1);
+
+    // ---------------------------------------------------------------------
+
+    //int* arr_shell = shell(values, argc - 1);
+
+    //cout << ">> Shell_Sort: ";
+    //print_arr(arr_shell, argc - 1);
+
+    // ---------------------------------------------------------------------
+
+    //int* arr_quick = quick(values, argc - 1);
+
+    //cout << ">> Quick_Sort: ";
+    //print_arr(arr_quick, argc - 1);
+
+    // ---------------------------------------------------------------------
 
     return 0;
 }
@@ -85,7 +120,27 @@ void bubble(int* arr, int size) {
     }
 }
 
+int* copy(int* arr1) {
+    // A fazer...
+}
+
 void merge(int* arr, int size) {
+    // A fazer...
+}
+
+int* merging(int* arr1, int* arr2, int size1, int size2) {
+    // A fazer...
+}
+
+void insertion(int* arr, int size) {
+    // A fazer...
+}
+
+void shell(int* arr, int size) {
+    // A fazer...
+}
+
+void quick(int* arr, int size) {
     // A fazer...
 }
 
