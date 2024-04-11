@@ -1,66 +1,103 @@
 #include <iostream>
-#include <cstdlib>
 
 using std::cout;
-using std::cin;
 using std::endl;
-using std::string;
 
 typedef struct Node {
     int iValue;
     Node* next;
 } Node;
 
+typedef struct Queue {
+    Node* first;
+    Node* last;
+} Queue;
+
+Node* newNode(int);
+Queue* newQueue();
+int firstQueue(Queue*);
+int lastQueue(Queue*);
+void addQueue(Queue*, int);
+void popQueue(Queue*);
+void printQueue(Queue*);
+
+int main() {
+    
+    Queue* queue = newQueue();
+    addQueue(queue, 1);
+    cout << firstQueue(queue) << endl;
+    cout << lastQueue(queue) << endl;
+    cout << "---------------------------------" << endl;
+    addQueue(queue, 1);
+    addQueue(queue, 7);
+    addQueue(queue, 12);
+    addQueue(queue, -2);
+    addQueue(queue, 0);
+    cout << firstQueue(queue) << endl;
+    cout << lastQueue(queue) << endl;
+    cout << "---------------------------------" << endl;
+    printQueue(queue);
+    cout << "---------------------------------" << endl;
+    popQueue(queue);
+    popQueue(queue);
+    printQueue(queue);
+    
+    
+    return 0;
+}
+
 Node* newNode(int iValue) {
     Node* node = (Node*) malloc(sizeof(Node));
-
-    if (node != nullptr) {
+    
+    if (node != NULL) {
         node->iValue = iValue;
         node->next = NULL;
     }
     return node;
 }
 
-void addNode(Node* list, int iValue) {
-    Node* temp = newNode(iValue);
+Queue* newQueue() {
+    Queue* queue = (Queue*) malloc(sizeof(Queue));
     
-    Node* current;
-    for(current = list; current->next != nullptr; current=current->next);
-    current->next=temp;
+    if (queue != NULL) {
+        queue->first = NULL;
+        queue->last = NULL;
+    }
+    return queue;
 }
 
-void printList(Node* list) {
+int firstQueue(Queue* const queue) {
+    return queue->first->iValue;
+}
+
+int lastQueue(Queue* const queue) {
+    return queue->last->iValue;
+}
+
+void addQueue(Queue* queue, int iValue) {
+    Node* node = newNode(iValue);
+    
+    if (queue->first != NULL) {
+        queue->last->next = node;
+        queue->last = node;
+    } else {
+        queue->first = node;
+        queue->last = node;
+    }
+}
+
+void popQueue(Queue* queue) {
+    if (queue != NULL) {
+        Node* temp = queue->first->next;
+        free(queue->first);
+        queue->first = temp;
+    }
+}
+
+void printQueue(Queue* const queue) {
     Node* current;
-    for(Node* current = list; current->next != nullptr; current=current->next) {
+    for(current = queue->first; current->next != NULL; current = current->next) {
         cout << current->iValue << " ";
     }
     cout << current->iValue << endl;
 }
-
-int sizeList(Node* list) {
-    int iSize = 1;
-    for(Node* current = list; current->next != nullptr; current=current->next, iSize++);
-    return iSize;
-}
-
-int firstElement(Node* list) {
-    return list->iValue;
-}
-
-int main() {
-    
-    Node* list = newNode(1);
-    addNode(list, 2);
-    addNode(list, 3);
-    addNode(list, 4);
-    addNode(list, 1);
-    addNode(list, 7);
-    addNode(list, 7);
-    
-    cout << "first: " << firstElement(list) << endl;
-    printList(list);
-    cout << "size: " << sizeList(list) << endl;
-    
-    return 0;
-}
-
