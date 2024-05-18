@@ -15,6 +15,14 @@ typedef struct Cicle {
     Node* tail;
 } Cicle;
 
+// ------------------------ FUNÇÕES PARA LISTA DUPLAMENTE ENCADEADA ------------------------
+
+Node* createNode(int);
+void printList(Node**);
+void addElementList(Node**, int iPayLoad);
+bool thereCicle(Node**);
+//void deleteList(Node**);
+
 // -------------------- FUNÇÕES PARA LISTA CÍCLICA DUPLAMENTE ENCADEADA --------------------
 
 Cicle* createCicle();
@@ -24,18 +32,12 @@ Cicle* createCiclebyArray(int*, int);
 int updateUp(Cicle*);
 int updateDown(Cicle*);
 void removeNodebyPosition(Cicle*, int);
-void deleteCicle(Cicle*); // falta fazer
+void deleteCicle(Cicle*);
 Cicle* intercallCicles(Cicle*, Cicle*);
 
 Cicle* Ouroboros(int, int);
 
-// -------------------- FUNÇÕES PARA LISTA DUPLAMENTE ENCADEADA --------------------
-
-Node* createNode(int); // essencial para lista cíclica também
-void printList(Node**);
-void addElementList(Node**, int iPayLoad);
-bool thereCicle(Node**);
-void deleteList(Node**);
+// -------------------------------------- DRIVER CODE --------------------------------------
 
 int main() {
     
@@ -69,7 +71,7 @@ int main() {
     
     // Seja Bem-Vindo a Questao 2 (^_^): LOOP EM LISTA DUPLAMENTE ENCADEADA
     
-    // Crianfo Lista
+    // Criando Lista
     Node* list1 = createNode(0);
     for (int i = 1; i < 10; i++) {
         addElementList(&list1, i);
@@ -124,10 +126,83 @@ int main() {
     deleteCicle(cicle5);
     deleteCicle(cicle6);
     
+    //deleteList(list1);
+    //deleteList(list2);
+    
     cout << "Finalizando o Programa, BYE BYE (^_^) ..." << endl;
     
     return 0;
 }
+
+
+
+// -------------------- FUNÇÕES PARA LISTA DUPLAMENTE ENCADEADA --------------------
+
+Node* createNode(int iPayLoad) {
+    Node* node = (Node*) malloc(sizeof(Node));
+    
+    if (node != nullptr) {
+        node->iPayLoad = iPayLoad;
+        node->ptrPrev = nullptr;
+        node->ptrNext = nullptr;
+    }
+    return node;
+}
+
+void printList(Node** head) {
+    if (*head == nullptr) {
+        cout << "Lista Vazia" << endl;
+        return;
+    }
+    
+    Node* current;
+    for (current = *head; current->ptrNext != nullptr; current = current->ptrNext) {
+        cout << current->iPayLoad << " ";
+    }
+    cout << current->iPayLoad << endl;
+}
+
+void addElementList(Node** head, int iPayLoad) {
+    Node* temp = createNode(iPayLoad);
+        
+    if (*head == nullptr) {
+        *head = temp;
+    } else {
+        Node* current;
+        for (current = *head; current->ptrNext != nullptr; current = current->ptrNext);
+        current->ptrNext = temp;
+        temp->ptrPrev = current;
+    }
+}
+
+bool thereCicle(Node** head) {
+    Node* current1 = *head; //slow
+    Node* current2 = *head; //fast
+    
+    while (current2 != nullptr) {
+        current1 = current1->ptrNext;
+        
+        if (current2->ptrNext != nullptr) {
+            if (current2->ptrNext->ptrNext != nullptr) {
+                current2 = current2->ptrNext->ptrNext;
+            } else {
+                break;
+            }
+        } else {
+            break;
+        }
+        
+        if (current1 == current2) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/*void deleteList(Node** head) {
+    
+}*/
+
 
 // -------------------- FUNÇÕES PARA LISTA CÍCLICA DUPLAMENTE ENCADEADA --------------------
 
@@ -278,53 +353,6 @@ Cicle* intercallCicles(Cicle* cicle1, Cicle* cicle2) {
     }
     
     return cicle;
-}
-
-// -------------------- FUNÇÕES PARA LISTA DUPLAMENTE ENCADEADA --------------------
-
-Node* createNode(int iPayLoad) {
-    Node* node = (Node*) malloc(sizeof(Node));
-    
-    if (node != nullptr) {
-        node->iPayLoad = iPayLoad;
-        node->ptrPrev = nullptr;
-        node->ptrNext = nullptr;
-    }
-    return node;
-}
-
-void printList(Node** head) {
-    if (*head == nullptr) {
-        cout << "Lista Vazia" << endl;
-        return;
-    }
-    
-    Node* current;
-    for (current = *head; current->ptrNext != nullptr; current = current->ptrNext) {
-        cout << current->iPayLoad << " ";
-    }
-    cout << current->iPayLoad << endl;
-}
-
-void addElementList(Node** head, int iPayLoad) {
-    Node* temp = createNode(iPayLoad);
-        
-    if (*head == nullptr) {
-        *head = temp;
-    } else {
-        Node* current;
-        for (current = *head; current->ptrNext != nullptr; current = current->ptrNext);
-        current->ptrNext = temp;
-        temp->ptrPrev = current;
-    }
-}
-
-bool thereCicle(Node** head) {
-    if ((*head)->ptrPrev == nullptr) {
-        return false;
-    } else {
-        return true;
-    }
 }
 
 Cicle* Ouroboros(int iFinal, int iSize) {
