@@ -23,7 +23,7 @@ void addElementCicle(Cicle*, int);
 Cicle* createCiclebyArray(int*, int);
 int updateUp(Cicle*);
 int updateDown(Cicle*);
-void removeNode(Cicle*, Node*);
+void removeNodebyPosition(Cicle*, int);
 void deleteCicle(Cicle*); // falta fazer
 Cicle* intercallCicles(Cicle*, Cicle*);
 
@@ -35,8 +35,7 @@ Node* createNode(int); // essencial para lista cíclica também
 void printList(Node**);
 void addElementList(Node**, int iPayLoad);
 bool thereCicle(Node**);
-
-
+void deleteList(Node**);
 
 int main() {
     
@@ -56,7 +55,7 @@ int main() {
     cout << "Ciclo 1 - Apos Retroceder: "; printCicle(cicle1);
     
     // Removendo nó
-    cout << "Removendo Primeiro Nó: "; removeNode(cicle1, cicle1->head->ptrNext->ptrNext);
+    cout << "Removendo Primeiro Nó: "; removeNodebyPosition(cicle1, 9);
     printCicle(cicle1);
     
     // Intercalando Listas
@@ -117,7 +116,13 @@ int main() {
     
     cout << "===============================================================================" << endl;
     
-    // falta deletar ciclos e listas
+    // Deletando os Ciclos
+    deleteCicle(cicle1);
+    deleteCicle(cicle2);
+    deleteCicle(cicle3);
+    deleteCicle(cicle4);
+    deleteCicle(cicle5);
+    deleteCicle(cicle6);
     
     cout << "Finalizando o Programa, BYE BYE (^_^) ..." << endl;
     
@@ -203,33 +208,43 @@ int updateDown(Cicle* cicle) {
     return iPayLoad;
 }
 
-void removeNode(Cicle* cicle, Node* node) {
+void removeNodebyPosition(Cicle* cicle, int iPayLoad) {
     if (cicle->head == nullptr) {
         cout << "Lista Vazia" << endl;
         return;
     }
     
-    if (node == nullptr) {
-        cout << "Nó Vazio" << endl;
-        return;
+    Node* current;
+    for (current = cicle->head; current->ptrNext != cicle->head; current = current->ptrNext) {
+        if (current->iPayLoad == iPayLoad) {
+            break;
+        }
     }
 
-    if (node == cicle->head) {
-        cicle->head = node->ptrNext;
-    } else if (node == cicle->tail) {
-        cicle->tail = node->ptrPrev;
+    if (current->iPayLoad != iPayLoad) {
+        cout << "Valor não está na Lista" << endl;
+    }
+
+    if (current == cicle->head) {
+        cicle->head = current->ptrNext;
+    } else if (current == cicle->tail) {
+        cicle->tail = current->ptrPrev;
     }
     
-    node->ptrPrev->ptrNext = node->ptrNext;
-    node->ptrNext->ptrPrev = node->ptrPrev;
-    node->ptrPrev = nullptr;
-    node->ptrNext = nullptr;
+    current->ptrPrev->ptrNext = current->ptrNext;
+    current->ptrNext->ptrPrev = current->ptrPrev;
+    current->ptrPrev = nullptr;
+    current->ptrNext = nullptr;
     
-    free(node);
+    free(current);
 }
 
 void deleteCicle(Cicle* cicle) {
-    // falta fazer!
+    while (cicle->head != cicle->tail) {
+        removeNodebyPosition(cicle, cicle->head->iPayLoad);
+    }
+    removeNodebyPosition(cicle, cicle->head->iPayLoad);
+    free(cicle);
 }
 
 Cicle* intercallCicles(Cicle* cicle1, Cicle* cicle2) {
