@@ -80,22 +80,38 @@ int main() {
     
     // Criando um Loop na Lista Criada
     
-    Node* current;
-    for (current = list1; current->ptrNext != nullptr; current = current->ptrNext);
-    current->ptrNext = list1;
-    list1->ptrPrev = current;
+    Node* current1;
+    for (current1 = list1; current1->ptrNext != nullptr; current1 = current1->ptrNext);
+    current1->ptrNext = list1;
+    list1->ptrPrev = current1;
     
     // Verificando se há Loop na Lista Acima
     cout << "Há ciclo na Lista 1 (1 - SIM, 0 - NÃO): " << thereCicle(&list1) << endl;
     
     // Verificando se há Loop numa Lista sem Loop
     Node* list2 = createNode(0);
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < 9; i++) {
         addElementList(&list2, i);
     }
     cout << "Lista 2: "; printList(&list2);
     
     cout << "Há ciclo na Lista 2 (1 - SIM, 0 - NÃO): " << thereCicle(&list2) << endl;
+    
+    // Verificando se há Loop numa Lista com Loop iniciando no meio
+    // Criando a lista
+    Node* list3 = createNode(0);
+    for (int i = 1; i < 10; i++) {
+        addElementList(&list3, i);
+    }
+    
+    cout << "Lista 3: "; printList(&list3);
+    
+    // Construindo o loop a partir da 3ª posição (valor 3)
+    Node* current3;
+    for (current3 = list3; current3->ptrNext != nullptr; current3 = current3->ptrNext);
+    current3->ptrNext = list3->ptrNext->ptrNext;
+    
+    cout << "Há ciclo na Lista 3 (1 - SIM, 0 - NÃO): " << thereCicle(&list3) << endl;
     
     cout << "===============================================================================" << endl;
     
